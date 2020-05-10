@@ -1,0 +1,64 @@
+Bandit Level 1 → Level 2
+
+As the file is named -(hyphen) we won’t be able to read it simply by cat command. 
+As cat command considers -(hyphen) as stdin/Stout. 
+If we directly use cat command, it won’t be able to understand that hyphen is a file name. 
+So, we will prefix the command with the path ./
+
+cat ./-   or cat <-
+
+----------------------------------
+Bandit Level 4 → Level 5
+
+only one of them has human readable text.
+
+for FILE in ./-file0*; do cat $FILE \n; done
+for FILE in ./-file0*; do file $FILE; done
+file ./*
+
+-----------------------------------
+Bandit Level 5 → Level 6
+
+human-readable
+1033 bytes in size
+not executable
+
+find -type f -size 1033c ! -executable   #b-block, c-bytes, k-KB, M/G-MB/GB
+find . -size 1033c
+find -type f -size 1033c ! -executable -exec cat {} \;
+{} will substitute the particular file you found into the command (cat {} in this case); the \; is to end the -exec command.)
+This will run cat once for every single file rather than running a single instance of cat passing it multiple filenames which can be inefficient
+
+find [whatever] -exec cat {} +
+This will pass multiple filenames to each invocation of cat, which can be more efficient.
+
+find [whatever] | xargs cat
+find [whatever] -print0 | xargs -0 cat
+
+find -type f -size 1033c ! -executable -print0 | xargs -0 cat
+
+https://www.tecmint.com/xargs-command-examples/
+
+command2 `command1`
+This will send the output of command1 into command2 as command line arguments. 
+Ex: cat `find . -name '*.foo' -print`
+
+-----------------------------------
+Bandit Level 6 → Level 7
+
+stored somewhere on the server
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
