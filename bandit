@@ -97,15 +97,45 @@ Bandit Level 11 → Level 12
 in the file data.txt, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions
 
 banana would encrypt to onanan
-cat data.txt | tr '[A-Za-z]' '[N-ZA-Mn-za-m]'v# We used n-z and a-m because tr won’t continue to translate after the Z
+cat data.txt | tr '[A-Za-z]' '[N-ZA-Mn-za-m]' # We used n-z and a-m because tr won’t continue to translate after the Z
 
 https://www.tecmint.com/tr-command-examples-in-linux/
 
 
+-----------------------------------
+Bandit Level 12 → Level 13
 
+in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. 
+For this level it may be useful to create a directory under /tmp in which you can work using mkdir. 
+For example: mkdir /tmp/myname123. Then copy the datafile using cp, and rename it using mv 
 
+password file has been repeatedly compressed. 
+Now to decompress we are going to need a directory with read and write permissions. 
+The tmp directory in root contains the required permissions.
 
+mkdir /tmp/pavan
+cp data.txt /tmp/pavan
+cd /tmp/pavan
+ls
+file data.txt         # On running the command, we are informed that the file is ASCII text. 
+                        But as we saw earlier that it is not readable. 
+xxd -r data.txt data1  # The xxd command is used in Linux to make the hexdump of a file. 
+                          It is also used to reverse this process.
+                         ‘r’ parameter to revert the process and provide it with a filename where it should store its output
+file data1         # This tells us that it is a gzip compressed file.
+mv data1 data2.gz  # first, we need to rename the file and provide it with a proper gzip extension.
+gzip -d data2.gz
 
+file data2
+mv data2 data3.bz2
+bzip2 -d data3.bz2
+file data3
+mv data3 data4.gz
+gzip -d data4.gz
+file data4
+tar -xvf data4
+
+-----------------------------------
 
 
 
