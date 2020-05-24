@@ -136,6 +136,67 @@ file data4
 tar -xvf data4
 
 -----------------------------------
+Bandit Level 13 → Level 14
+
+private SSH key
+ssh -i sshkey.private bandit14@localhost # -i means that I am using an identity file in order to login
+
+-----------------------------------
+Bandit Level 14 → Level 15
+
+submitting the password of the current level to port 30000 on localhost.
+
+telnet localhost 30000 or nc localhost 30000
+ssh bandit15@localhost
+
+The key difference between Telnet and SSH is that SSH uses encryption, 
+which means that all data transmitted over a network is secure from eavesdropping
+
+https://www.tecmint.com/netcat-nc-command-examples/
+
+-----------------------------------
+Bandit Level 15 → Level 16
+
+submitting the password of the current level to port 30001 on localhost using SSL encryption.
+
+# OpenSSL is a free and open source tool for encryption and decryption that is used by other software on your Linux system
+# while connecting to the internet. 
+
+Differences between SSL/TLS and SSH is that SSL normally employs X.509 digital certificates for server 
+and client authentication whereas SSH does not.
+
+I tried connecting to the port 30001 with the command below which seemed to work and 
+I was able to type in the password of bandit15.
+
+openssl s_client -connect localhost:30001  #This is the error message the hint was talking about. 
+
+openssl s_client -ign_eof -connect localhost:30001 #"-ign_eof" ignores the input eof.
+
+-----------------------------------
+Bandit Level 16 → Level 17
+
+submitting the password of the current level to a port on localhost in the range 31000 to 32000. 
+ First find out which of these ports have a server listening on them. 
+ Then find out which of those speak SSL and which don’t. 
+ There is only 1 server that will give the next credentials, 
+ the others will simply send back to you whatever you send to it.
+
+# https://www.tecmint.com/nmap-command-examples/
+
+nmap -v -A -T4 -p 31000-32000 localhost #-A allows us to detect the OS, -v increases the verbosity
+
+on port 31790 there is a message that hints that we need to enter the password on that port
+
+
+
+
+
+
+
+
+
+
+
 
 
 
